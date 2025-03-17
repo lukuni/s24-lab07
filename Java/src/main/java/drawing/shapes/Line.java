@@ -1,19 +1,20 @@
 package drawing.shapes;
 
-/**
- * Refactor Task 3: (Mis-)Shaped
- *
- * @author Zishen Wen (F22), Deyuan Chen (S22)
- */
-public record Line(int[] start, int[] end) {
+public class Line {
 
-    public char[] toJPEG() {
-        // Pretend this works.
-        return new char[0];
+    private final int[] start;
+    private final int[] end;
+
+    public Line(int[] start, int[] end) {
+        this.start = start;
+        this.end = end;
     }
 
-    public char[] toPNG() {
-        // Pretend this works.
-        return new char[0];
+    public int[] getStart() {
+        return start;
+    }
+
+    public int[] getEnd() {
+        return end;
     }
 }

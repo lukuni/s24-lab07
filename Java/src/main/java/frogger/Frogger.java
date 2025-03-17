@@ -1,22 +1,14 @@
 package frogger;
 
-/**
- * Refactor Task 1 & 2: Frogger
- *
- * @author Zishen Wen (F22), Deyuan Chen (S22), Duan Liang (F23)
- */
 public class Frogger {
 
-    // Field for task 1.
     private final Road road;
     private int position;
-    
-    // Field for task 2. Anything to add/change?
     private final Records records;
     private String firstName, lastName, phoneNumber, zipCode, state, gender;
 
     public Frogger(Road road, int position, Records records, String firstName, String lastName, String phoneNumber,
-    String zipCode, String state, String gender) {
+                   String zipCode, String state, String gender) {
         this.road = road;
         this.position = position;
         this.records = records;
@@ -29,40 +21,57 @@ public class Frogger {
     }
 
     /**
-     * Moves Frogger.
-     *
-     * @param forward true is move forward, else false.
-     * @return true if move successful, else false.
+     * Moves Frogger forward or backward.
+     * 
+     * @param forward true if move forward, false if move backward.
+     * @return true if move is successful, false otherwise.
      */
     public boolean move(boolean forward) {
-        int nextPosition = this.position + (forward ? 1 : -1);
-        if (!isValid(nextPosition) || isOccupied(nextPosition)) {
+        int nextPosition = calculateNextPosition(forward);
+        if (!isValidPosition(nextPosition) || isOccupied(nextPosition)) {
             return false;
         }
         this.position = nextPosition;
         return true;
     }
 
-    // TODO: Do you notice any issues here?
-    public boolean isOccupied(int position) {
-        boolean[] occupied = this.road.getOccupied();
-        return occupied[position];
-    }
-    
-    public boolean isValid(int position) {
-        if (position < 0) return false;
-        boolean[] occupied = this.road.getOccupied();
-        return position < occupied.length;
+    /**
+     * Calculates the next position of Frogger.
+     * 
+     * @param forward true if moving forward, false if backward.
+     * @return the next position.
+     */
+    private int calculateNextPosition(boolean forward) {
+        return this.position + (forward ? 1 : -1);
     }
 
     /**
-     * Records Frogger to the list of records.
+     * Checks if the position is valid (within bounds).
      * 
-     * @return true if record successful, else false.
+     * @param position the position to check.
+     * @return true if valid, false otherwise.
      */
-    public boolean recordMyself() {
-      boolean success = records.addRecord(firstName, lastName, phoneNumber, zipCode, state, gender);
-      return success;
+    private boolean isValidPosition(int position) {
+        return position >= 0 && position < road.getOccupied().length;
     }
 
+    /**
+     * Checks if the position is occupied.
+     * 
+     * @param position the position to check.
+     * @return true if occupied, false otherwise.
+     */
+    private boolean isOccupied(int position) {
+        return road.getOccupied()[position];
+    }
+
+    /**
+     * Records Frogger's information.
+     * 
+     * @return true if successful, false otherwise.
+     */
+    public boolean recordMyself() {
+        FroggerID froggerID = new FroggerID(firstName, lastName, phoneNumber, zipCode, state, gender);
+        return records.addRecord(froggerID);
+    }
 }

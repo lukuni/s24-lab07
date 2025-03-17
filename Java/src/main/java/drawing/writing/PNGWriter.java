@@ -1,27 +1,17 @@
 package drawing.writing;
 
+import drawing.shapes.Line;
 import java.io.IOException;
 import java.io.Writer;
 
-/**
- * Refactor Task 3: (Mis-)Shaped
- *
- * @author Zishen Wen (F22), Deyuan Chen (S22)
- */
-public class PNGWriter extends Writer {
-    // This is a stub class. Pretend this writer work.
-    public PNGWriter(String s) {
-    }
-
+public class PNGWriter implements DrawingWriter {
     @Override
-    public void write(char[] cbuf, int off, int len) throws IOException {
-    }
-
-    @Override
-    public void flush() throws IOException {
-    }
-
-    @Override
-    public void close() throws IOException {
+    public void write(Writer writer, Line[] lines) throws IOException {
+        // Implement PNG-specific drawing logic here
+        // Example: Write lines to the file in PNG format.
+        writer.write("PNG format drawing\n");
+        for (Line line : lines) {
+            writer.write(line.toString() + "\n");
+        }
     }
 }

@@ -1,7 +1,7 @@
 package drawing;
 
-import drawing.shapes.Line;
 import drawing.shapes.Shape;
+import drawing.writing.DrawingWriter;
 import drawing.writing.JPEGWriter;
 import drawing.writing.PNGWriter;
 
@@ -10,46 +10,40 @@ import java.io.Writer;
 import java.util.List;
 
 /**
- * Refactor Task 3: (Mis-)Shaped
- *
- * @author Zishen Wen (F22), Deyuan Chen (S22)
+ * Refactored Drawing class.
  */
 public class Drawing {
 
-    private List<Shape> shapes;
+    private static final String JPEG_FORMAT = "jpeg";
+    private static final String PNG_FORMAT = "png";
+
+    private final List<Shape> shapes;
 
     public Drawing(List<Shape> shapes) {
         this.shapes = shapes;
     }
 
     /**
-     * Draw shapes to a file with given file format.
-     *
-     * @param format   file format
-     * @param filename file name
+     * Draw shapes to a file with the given format.
+     * 
+     * @param format File format (e.g., "jpeg", "png").
+     * @param writer Output writer for the file.
      */
-    public void draw(String format, String filename) {
-        // TODO: Do you notice any issues here?
-        if (format.equals("jpeg")) {
-            try (Writer writer = new JPEGWriter(filename + ".jpeg")) {
-                for (Shape shape : this.shapes) {
-                    // TODO: What is the issue of the behavior here?
-                    Line[] lines = shape.toLines();
-                    shape.draw(writer, lines);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else if (format.equals("png")) {
-            try (Writer writer = new PNGWriter(filename + ".png")) {
-                for (Shape shape : this.shapes) {
-                    Line[] lines = shape.toLines();
-                    shape.draw(writer, lines);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    
+    /**
+     * Get the appropriate DrawingWriter based on the format.
+     *
+     * @param format the file format.
+     * @return a DrawingWriter instance or null if format is unsupported.
+     */
+    private DrawingWriter getDrawingWriter(String format) {
+        switch (format.toLowerCase()) {
+            case JPEG_FORMAT:
+                return new JPEGWriter();
+            case PNG_FORMAT:
+                return new PNGWriter();
+            default:
+                return null;  // Unsupported format
         }
     }
 }
-

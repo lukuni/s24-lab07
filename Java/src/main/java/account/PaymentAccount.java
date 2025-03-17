@@ -1,18 +1,15 @@
 package account;
 
-/**
- * Refactor Exercise 2: Account
- *
- * @author Zishen Wen (F22), Deyuan Chen (S22)
- */
 public abstract class PaymentAccount {
 
     private final String accountHolder;
     private final int accountNumber;
+    private int balance; // Add a balance property
 
-    public PaymentAccount(String accountHolder, int accountNumber) {
+    public PaymentAccount(String accountHolder, int accountNumber, int balance) {
         this.accountHolder = accountHolder;
         this.accountNumber = accountNumber;
+        this.balance = balance;
     }
 
     public abstract boolean pay(int amount);
@@ -24,4 +21,13 @@ public abstract class PaymentAccount {
     public String getAccountHolder() {
         return this.accountHolder;
     }
+
+    public int getBalance() {
+        return this.balance;
+    }
+
+    protected void updateBalance(int amount) {
+        this.balance -= amount;
+    }
+
 }

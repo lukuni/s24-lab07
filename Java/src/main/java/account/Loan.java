@@ -1,36 +1,24 @@
 package account;
 
-/**
- * Refactor Exercise 2: Account
- *
- * @author Zishen Wen (F22), Deyuan Chen (S22)
- */
 public class Loan extends PaymentAccount {
 
-    private int balanceRemaining;
     private final int minimumMonthlyPayment;
 
-    public Loan(String accountHolder, int accountNumber, int balanceRemaining, int monthlyPayment) {
-        super(accountHolder, accountNumber);
-        this.balanceRemaining = balanceRemaining;
-        this.minimumMonthlyPayment = monthlyPayment;
+    public Loan(String accountHolder, int accountNumber, int balanceRemaining, int minimumMonthlyPayment) {
+        super(accountHolder, accountNumber, balanceRemaining);
+        this.minimumMonthlyPayment = minimumMonthlyPayment;
     }
 
     @Override
     public boolean pay(int amount) {
         if (amount < this.minimumMonthlyPayment) {
-            return false;
+            return false; // Ensure payment meets minimum monthly payment
         }
-        this.balanceRemaining -= amount;
+        updateBalance(amount);
         return true;
-    }
-
-    public int getBalanceRemaining() {
-        return this.balanceRemaining;
     }
 
     public int getMinimumMonthlyPayment() {
         return this.minimumMonthlyPayment;
     }
-
 }
